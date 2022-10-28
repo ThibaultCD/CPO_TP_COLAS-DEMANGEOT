@@ -18,13 +18,18 @@ public class TP2_Bieres_COLASDEMANGEOT {
         BouteilleBiere uneBiere = new BouteilleBiere("Cuvée des trolls" ,7.0 , "Dubuisson");
         uneBiere.ouverte = false ;
         uneBiere.lireEtiquette();
+        
         BouteilleBiere autreBiere = new BouteilleBiere("Leffe",6.6,"Abbaye de Leffe");
         autreBiere.ouverte = false ;
         autreBiere.lireEtiquette();
         System.out.println(autreBiere) ;
+        
         BouteilleBiere TroisièmeBiere = new BouteilleBiere ("Corona", 5.8 , "Modelo" );
         TroisièmeBiere.lireEtiquette();
+        TroisièmeBiere.ouverte = true ;
         System.out.println(TroisièmeBiere);
+        TroisièmeBiere.Décapsuler();
+        
     }
     
 }
