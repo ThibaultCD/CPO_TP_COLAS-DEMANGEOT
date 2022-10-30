@@ -9,7 +9,7 @@ import java.util.Scanner;
  *
  * @author 33781
  */
-public class Convertisseur {
+public class Convertisseur {//Création d'une classe, de son attribut et de ses méthodes de conversions
      int nbConversions;
     
     public Convertisseur(){
@@ -52,7 +52,7 @@ public class Convertisseur {
         return Kelvin;    
     }
     
-    public byte Selectmode(){
+    public byte Selectmode(){//Création d'une méthode qui affichera à l'utilisateur les différentes possibilités 
         byte mode = 0;
         Scanner sc;
         sc = new Scanner(System.in);
@@ -71,9 +71,9 @@ public class Convertisseur {
         return mode;
     }
     
-    public double convert(){
-        byte mode = Selectmode();
-        Scanner sc = new Scanner(System.in);
+    public double convert(){// Création d'une méthode pour convertir
+        byte mode = Selectmode();//Appelle de la méthode Selectmode
+        Scanner sc = new Scanner(System.in);//Création d'un nouvel objet
         System.out.println("Saisissez une valeur : ");
         double t = sc.nextDouble();
         System.out.println("Vous avez choisi : " + t + "\n");
@@ -81,7 +81,7 @@ public class Convertisseur {
         String sortie = "";
         double resultat = 0;
         
-        switch(mode){
+        switch(mode){//Selon la solution choisie par l'utilisateur, cela renvoie à une des méthodes créée auparavant 
             case 0:
                 return -300;
             case 1:
@@ -116,8 +116,8 @@ public class Convertisseur {
                 break;
         }
         
-        nbConversions ++;
+        nbConversions ++;//Ajoute 1 à chaque conversions effectuées
         return resultat;
-        //System.out.println("La température de " + t + entree + " correspond à " + resultat + " " + sortie);
+        
     }
 }

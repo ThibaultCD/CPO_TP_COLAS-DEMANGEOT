@@ -16,12 +16,12 @@ public class TP2_convertisseur_Objet_COLASDEMANGEOT {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        double resultat = 0;
+        double resultat = 0;//Initialisation du résultat à 0
         
-        Convertisseur Convert1 = new Convertisseur();
+        Convertisseur Convert1 = new Convertisseur();//Création d'un objet
         while(resultat != resultat-300){
             
-            resultat = Convert1.convert();
+            resultat = Convert1.convert();//Appelle de la méthode de conversion
             System.out.println(Convert1.toString());
             System.out.println("Le résultat de la conversion est " + resultat + "\n");
             
