@@ -8,10 +8,10 @@ package tp2_manip_colas.demangeot;
  *
  * @author 33781
  */
-public class Tartiflette {
+public class Tartiflette {//Création d'une classe et de son attribut
     int nbCalories;
     
-    public Tartiflette(int Calories){
+    public Tartiflette(int Calories){//Création du constructeur
         nbCalories = Calories;
     }
 }

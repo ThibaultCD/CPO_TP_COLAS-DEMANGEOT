@@ -8,10 +8,10 @@ package tp2_manip_colas.demangeot;
  *
  * @author 33781
  */
-public class Moussaka {
+public class Moussaka {//Création d'une classe et de son attribut
     int nbCalories;
     
-    public Moussaka(int Calories){
+    public Moussaka(int Calories){//Création du constructeur
         nbCalories = Calories;
     }
 }
