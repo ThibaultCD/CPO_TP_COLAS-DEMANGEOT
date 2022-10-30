@@ -8,20 +8,20 @@ package tp2_relation_1_colas.demangeot;
  *
  * @author 33781
  */
-public class Voiture {
+public class Voiture {//Création d'une classe
     String Modele;
     String Marque;
     int PuissanceCV;
     Personne Proprietaire;
     
-    public Voiture(String modele, String marque, int puissanceCV){
+    public Voiture(String modele, String marque, int puissanceCV){//Création d'un constructeur
         Modele = modele;
         Marque = marque;
         PuissanceCV = puissanceCV;
         Proprietaire = null;  
 }
     @Override
-    public String toString(){
+    public String toString(){//Création d'une méthode
         return "/Marque : " + Marque + " /Modele : " + Modele + " /Puissance : " + PuissanceCV + " /Proprietaire : " + Proprietaire;
     }
 }
