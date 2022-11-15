@@ -26,7 +26,6 @@ public class Arme {
     public int getAttaque() {
         return attaque;
     }
-
     public void setAttaque(int attaque) {
         if (attaque > 0){
         this.attaque = attaque;

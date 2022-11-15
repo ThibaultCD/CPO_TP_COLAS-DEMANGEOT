@@ -18,11 +18,19 @@ public class Epée extends Arme {
             finesse = a;
         }else{
             finesse = 0;  
-        }
+        }if (a >= 100){
+                   finesse = 99;
+            }
     }
     @Override
     public String toString(){
         return "Epée(nom = " + nom + ", attaque = " + attaque + ", finesse = " + finesse + ")";
     }
+    public int getAge(){
+        return finesse;
+    }
     
+    public void setAge(int finesse){
+        this.finesse = finesse;
+    }
 }

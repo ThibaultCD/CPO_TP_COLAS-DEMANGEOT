@@ -18,18 +18,12 @@ public class Baton extends Arme {
             age = a;
         }else{
             age = 0;  
-        }
+        }if (a >= 100){
+                   age = 99;
+            }
     }
     @Override
     public String toString(){
         return "Baton(nom = "+ nom + ", attaque = " + attaque + ", age = " + age + ")";
-    }
-    
-    public int getAge(){
-        return age;
-    }
-    
-    public void setAge(int age){
-        this.age = age;
     }
 }
