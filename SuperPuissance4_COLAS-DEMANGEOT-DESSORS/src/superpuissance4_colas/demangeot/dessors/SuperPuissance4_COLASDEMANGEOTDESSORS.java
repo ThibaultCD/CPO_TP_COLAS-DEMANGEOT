@@ -15,6 +15,12 @@ public class SuperPuissance4_COLASDEMANGEOTDESSORS {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        Jeton premierJeton = new Jeton("Rouge");
+        System.out.println(premierJeton);
+        
+        Jeton deuxièmeJeton = new Jeton("Jaune");
+        System.out.println(deuxièmeJeton);
     }
     
 }
