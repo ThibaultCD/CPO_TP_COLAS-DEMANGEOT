@@ -27,7 +27,7 @@ public class CelluleDeGrille {
         }
     }
     
-    public Jeton affecterJeton(){
+    public Jeton affecterJeton(Jeton nomDuJeton){
         return jetonCourant;
     }
     
@@ -85,5 +85,18 @@ public class CelluleDeGrille {
     public void activerTrouNoir(){
         supprimerJeton();
         supprimerTrouNoir();
+    }
+    
+    @Override
+    public String toString() {
+        if (presenceJeton() == true){
+            return jetonCourant.toString();
+        }else if (presenceTrouNoir() == true){
+            return "@";
+        }else if (presenceDesintegrateur() == true){
+            return "D";
+        }else{
+            return ".";
+        }
     }
 }
