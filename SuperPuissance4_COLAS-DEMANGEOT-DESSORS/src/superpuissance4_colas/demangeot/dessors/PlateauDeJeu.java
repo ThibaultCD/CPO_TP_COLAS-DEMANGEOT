@@ -161,6 +161,7 @@ public class PlateauDeJeu {
             return true;
         }else{
             return false;
+        }
     }
     
     public boolean supprimerTrouNoir(int x, int y){
@@ -168,16 +169,38 @@ public class PlateauDeJeu {
             grille[x][y].supprimerTrouNoir();
             return true;
         }else{
-        return false;
+            return false;
         }
     }
     
     public boolean placerDesintegrateur(int x, int y){
-        if (grille[x][y].presenceDesintegrateur() == true);
+        if (grille[x][y].presenceDesintegrateur() == true){
             grille[x][y].placerDesintegrateur();
             return true;
         }else{
             return false;
         }
+    }
+    
+    public boolean supprimerDesintegrateur(int x, int y){
+        if (grille[x][y].presenceDesintegrateur() == true){
+            grille[x][y].supprimerDesintegrateur();
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public boolean supprimerJeton(int x, int y){
+        if (grille[x][y].presenceJeton() == true){
+            grille[x][y].supprimerJeton();
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public Jeton recupererJeton(int x, int y){
+        return grille[x][y].recupererJeton();
     }
 }
