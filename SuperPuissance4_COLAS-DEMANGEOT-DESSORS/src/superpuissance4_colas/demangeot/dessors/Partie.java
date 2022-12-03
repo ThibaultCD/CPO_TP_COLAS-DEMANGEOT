@@ -13,7 +13,7 @@ import java.util.Random;
 public class Partie {
     private Joueur[]ListeJoueurs = new Joueur[2];
     private Joueur joueurCourant;
-    private PlateauDeJeu plateau;
+    private PlateauDeJeu grilleDeJeu = new PlateauDeJeu();
     
     public Partie(Joueur premierJoueur, Joueur deuxiemeJoueur){
         ListeJoueurs[0] = premierJoueur;
@@ -21,14 +21,21 @@ public class Partie {
     }
     
     public void attribuerCouleurAuxJoueurs(){
-        ListeJoueurs[0].affecterCouleur("Rouge");
-        ListeJoueurs[1].affecterCouleur("Jaune");
+        Random r = new Random();
+        boolean couleur;
+        couleur = r.nextBoolean();
+        if (couleur){
+            ListeJoueurs[0].affecterCouleur("Rouge");
+            ListeJoueurs[1].affecterCouleur("Jaune");
+        }else{
+            ListeJoueurs[0].affecterCouleur("Jaune");
+            ListeJoueurs[1].affecterCouleur("Rouge");
+        }
     }
-    
     public void creerEtAffecterJeton(Joueur joueur){
         Jeton [] jetons = new Jeton[30];
         for (int i=0; i<30; i++){
-        jetons[i] = new Jeton(joueur.couleur());
+        jetons[i] = new Jeton(joueur.couleur);
         joueur.ajouterJeton(jetons[i]);
         }   
     }
@@ -39,9 +46,9 @@ public class Partie {
         for(int i=0; i<3; i++){
             int ligne = l.nextInt(0,6);
             int colonne = c.nextInt(0,7);
-            if (plateau.presenceTrouNoir(ligne, colonne) == false && plateau.presenceDesintegrateur(ligne, colonne) == false){
-                plateau.placerTrouNoir(ligne, colonne);
-                plateau.placerDesintegrateur(ligne,colonne);
+            if (grilleDeJeu.presenceTrouNoir(ligne, colonne) == false && grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
+                grilleDeJeu.placerTrouNoir(ligne, colonne);
+                grilleDeJeu.placerDesintegrateur(ligne,colonne);
             }else{
                 i=-1;
             }
@@ -49,8 +56,8 @@ public class Partie {
         for(int j=0; j<2; j++){
             int ligne = l.nextInt(0,6);
             int colonne = c.nextInt(0,7);
-            if(plateau.presenceDesintegrateur(ligne, colonne) == false){
-                plateau.placerDesintegrateur(ligne, colonne);
+            if(grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
+                grilleDeJeu.placerDesintegrateur(ligne, colonne);
             }else{
                 j=-1;
             }
@@ -58,8 +65,8 @@ public class Partie {
         for(int k=0; k<2; k++){
             int ligne = l.nextInt(0,6);
             int colonne = c.nextInt(0,7);
-            if(plateau.presenceTrouNoir(ligne, colonne) == false && plateau.presenceDesintegrateur(ligne, colonne) == false){
-                plateau.placerTrouNoir(ligne, colonne);
+            if(grilleDeJeu.presenceTrouNoir(ligne, colonne) == false && grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
+                grilleDeJeu.placerTrouNoir(ligne, colonne);
             }else{
                 k=-1;
             }
@@ -78,8 +85,5 @@ public class Partie {
         Random j = new Random();
         int nouveauJoueur = j.nextInt(0,2);
         joueurCourant = ListeJoueurs[nouveauJoueur];
-        while(
-            
-        }
     }
 }
