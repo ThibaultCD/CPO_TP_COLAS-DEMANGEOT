@@ -11,10 +11,10 @@ import java.util.ArrayList;
  * @author 33781
  */
 public class Joueur {
-    private String nom;
+    String nom;
     String couleur;
-    private ArrayList<Jeton> reserveJetons = new ArrayList<>(0);
-    private int nombreDesintegrateur;
+    ArrayList<Jeton> reserveJetons = new ArrayList<>(0);
+    int nombreDesintegrateur;
     
     public Joueur(String nom){
         this.nom = nom;

@@ -9,7 +9,7 @@ package superpuissance4_colas.demangeot.dessors;
  * @author 33781
  */
 public class CelluleDeGrille {
-    private Jeton jetonCourant;
+    Jeton jetonCourant;
     private boolean avoirTrouNoir;
     private boolean avoirDesintegrateur;
     
