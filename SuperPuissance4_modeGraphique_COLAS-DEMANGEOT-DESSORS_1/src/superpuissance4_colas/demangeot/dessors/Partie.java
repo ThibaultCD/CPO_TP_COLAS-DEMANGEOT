@@ -5,6 +5,7 @@
 package superpuissance4_colas.demangeot.dessors;
 
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -12,8 +13,8 @@ import java.util.Random;
  */
 public class Partie {
     private Joueur[]ListeJoueurs = new Joueur[2];
-    private Joueur joueurCourant;
-    private PlateauDeJeu grilleDeJeu = new PlateauDeJeu();
+    Joueur joueurCourant;
+    PlateauDeJeu grilleDeJeu = new PlateauDeJeu();
     
     public Partie(Joueur premierJoueur, Joueur deuxiemeJoueur){
         ListeJoueurs[0] = premierJoueur;
@@ -41,42 +42,117 @@ public class Partie {
     }
     
     public void placerTrousNoirsEtDesintegrateurs(){
+        //Génération des 5 trous noirs et de 3 désintégrateurs sur les trous noirs
         Random l = new Random();
         Random c = new Random();
+        int compteur = 0;
+        for(int i=0; i<5; i++){
+            int ligne_TN = l.nextInt(6);
+            int colonne_TN = c.nextInt(7);
+            if(compteur <   2){
+                if (!grilleDeJeu.placerDesintegrateur(ligne_TN, colonne_TN)){
+                    compteur--;
+                }
+                compteur = compteur + 1;
+            }
+            if (!grilleDeJeu.placerTrouNoir(ligne_TN, colonne_TN)){
+                i--; 
+            }
+        }
+        //On place les trois derniers désintegrateurs
         for(int i=0; i<3; i++){
-            int ligne = l.nextInt(0,6);
-            int colonne = c.nextInt(0,7);
-            if (grilleDeJeu.presenceTrouNoir(ligne, colonne) == false && grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
-                grilleDeJeu.placerTrouNoir(ligne, colonne);
-                grilleDeJeu.placerDesintegrateur(ligne,colonne);
-            }else{
-                i=-1;
+            int ligne_desint = l.nextInt(6);
+            int colonne_desint = l.nextInt(7);
+            if (!grilleDeJeu.placerDesintegrateur(ligne_desint, colonne_desint) || !grilleDeJeu.placerTrouNoir(ligne_desint, colonne_desint)){
+                i--;
             }
         }
-        for(int j=0; j<2; j++){
-            int ligne = l.nextInt(0,6);
-            int colonne = c.nextInt(0,7);
-            if(grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
-                grilleDeJeu.placerDesintegrateur(ligne, colonne);
-            }else{
-                j=-1;
-            }
+        grilleDeJeu.afficherGrilleSurConsole();
+    }
+    
+    public void jouerJeton(){
+        Scanner sc = new Scanner(System.in);
+        boolean resultatAction;
+        System.out.println("Veuillez saisir une colonne :");
+        int colonne = sc.nextInt() - 1;
+        while (colonne > 6 || colonne < 0){
+            System.out.println("Erreur : veuillez saisir une autre colonne :");
+            colonne = sc.nextInt() - 1;
         }
-        for(int k=0; k<2; k++){
-            int ligne = l.nextInt(0,6);
-            int colonne = c.nextInt(0,7);
-            if(grilleDeJeu.presenceTrouNoir(ligne, colonne) == false && grilleDeJeu.presenceDesintegrateur(ligne, colonne) == false){
-                grilleDeJeu.placerTrouNoir(ligne, colonne);
-            }else{
-                k=-1;
-            }
-        }        
+        resultatAction = grilleDeJeu.ajouterJetonDansColonne(joueurCourant, colonne);
+        while (!resultatAction){
+            System.out.println("La colonne est pleine, veuillez saisir une autre colonne :");
+            colonne = sc.nextInt() - 1;
+            resultatAction = grilleDeJeu.ajouterJetonDansColonne(joueurCourant, colonne);
+        }
+    }
+    
+    public boolean recup_jeton(){
+        int colonne;
+        int ligne;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir les coordonnées du jeton à récupérer :");
+        System.out.println("Veuillez saisir la colonne :");
+        colonne = sc.nextInt() - 1;
+        while (colonne > 6 || colonne < 0){
+            System.out.println("Erreur : veuillez saisir une colonne valide :");
+            colonne = sc.nextInt() - 1;
+        }
+        System.out.println("Veuillez saisir la ligne :");
+        ligne = sc.nextInt() - 1;
+        while (ligne > 5 || ligne < 0){
+            System.out.println("Erreur : veuillez saisir une ligne valide :");
+            ligne = sc.nextInt() - 1;
+        }
+        if (grilleDeJeu.grille[ligne][colonne].jetonCourant != null && grilleDeJeu.grille[ligne][colonne].lireCouleurDuJeton()){
+            joueurCourant.ajouterJeton(grilleDeJeu.recupererJeton(ligne, colonne));
+            grilleDeJeu.tasserGrille(ligne,colonne);
+        }
+    }
+    
+    public boolean tour_de_jeu(){
+        System.out.println("C'est à " + joueurCourant.nom + " de jouer (" + joueurCourant.couleur + ")");
+        System.out.println("Il vous reste " + joueurCourant.reserveJetons + " jetons");
+        System.out.println("Il vous reste " + joueurCourant.nombreDesintegrateur + " désintégrateurs");
+        int choix = menu_joueur();
+        switch (choix){
+            case 1:
+                jouerJeton();
+                return true;
+            case 2:
+                if (!recup_jeton()){
+                    System.out.println("Vous avez soit un jeton qui n'est pas le vôtre soit un endroit sans jeton");
+                    return false;
+                }
+                return true;
+            case 3:
+                if (!desing_jeton()){
+                    System.out.println("Vous avez soit saisi un jeton qui est le vôtre soit vous n'avez pas de désintegrateur");
+                    return false;
+                }
+                return true;
+        }
+        return true;
     }
     
     public void initialiserPartie(){
+        //Création de joueurs
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Choix du pseudo du J1 :");
+        Joueur J1 = new Joueur(sc.nextLine());
+        System.out.println("Choix du pseudo du J2 :");
+        Joueur J2 = new Joueur(sc.nextLine());
+        ListeJoueurs[0] = J1;
+        ListeJoueurs[1] = J2;
+        
         attribuerCouleurAuxJoueurs();
+        
+        System.out.println(J1.nom + " est de couleur " + J1.couleur);
+        System.out.println(J2.nom + " est de couleur " + J2.couleur);
+        
         creerEtAffecterJeton(ListeJoueurs[0]);
         creerEtAffecterJeton(ListeJoueurs[1]);
+        
         placerTrousNoirsEtDesintegrateurs();
     }
     
