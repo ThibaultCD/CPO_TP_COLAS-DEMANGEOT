@@ -19,15 +19,20 @@ public class PlateauDeJeu {
         }
     }
     
-    public int ajouterJetonDansColonne(Jeton UnJeton, int colonne){
-        for (int i=5; i>=0; i--){
-            if ("Rouge".equals(grille[i][colonne].lireCouleurDuJeton()) || "Jaune".equals(grille[i][colonne].lireCouleurDuJeton())){
-            grille[i+1][colonne].affecterJeton(UnJeton);
-            return i+1;
-            }
+        public boolean ajouterJetonDansColonne(Joueur joueurCourant, int colonne){
+        int i = 0;
+        while (grille[i][colonne].jetonCourant != null){
+            i++;
         }
-        return 0;
-    }
+        if (grille[i][colonne].presenceDesintegrateur()){
+            grille[i][colonne].supprimerDesintegrateur();
+            joueurCourant.nombreDesintegrateur++;
+        }
+        if (grille[i][colonne].presenceTrouNoir()){
+            grille[i][colonne].activerTrouNoir();
+        }
+        return true;
+    } 
     
     public boolean grilleRemplie(){
         for (int j=0; j<7; j++){
@@ -83,7 +88,13 @@ public class PlateauDeJeu {
         }
         return false;
     }
-    
+    public boolean etreGagnantPourJoueur(Joueur un_joueur){
+        if (colonneGagnantePourColonne("Rouge") == true || diagonaleMontanteGagnantePourColonne("Rouge") == true || diagonaleDescendanteGagnantePourColonne("Rouge") == true || diagonaleDescendanteGagnantePourColonne("Rouge") == true ){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public boolean colonneGagnantePourColonne(String couleur){
         int compteur = 0;
         for (int j = 0; j<7; j++){
