@@ -70,6 +70,20 @@ public class Partie {
         grilleDeJeu.afficherGrilleSurConsole();
     }
     
+    int menu_joueur(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Que voulez-vous faire ?");
+        System.out.println("1) Jouer un jeton");
+        System.out.println("2) Récuperer un jeton");
+        System.out.println("3) Désintegrer un jeton");
+        int choix = sc.nextInt();
+        while (choix >3 || choix < 1){
+            System.out.println("Erreur : Entrer un choix qui existe :");
+            choix = sc.nextInt();
+        }
+        return choix;
+    }
+    
     public void jouerJeton(){
         Scanner sc = new Scanner(System.in);
         boolean resultatAction;
@@ -104,11 +118,44 @@ public class Partie {
             System.out.println("Erreur : veuillez saisir une ligne valide :");
             ligne = sc.nextInt() - 1;
         }
-        if (grilleDeJeu.grille[ligne][colonne].jetonCourant != null && grilleDeJeu.grille[ligne][colonne].lireCouleurDuJeton()){
+        if (grilleDeJeu.grille[ligne][colonne].jetonCourant != null && !"vide".equals(grilleDeJeu.grille[ligne][colonne].lireCouleurDuJeton())){
             joueurCourant.ajouterJeton(grilleDeJeu.recupererJeton(ligne, colonne));
-            grilleDeJeu.tasserGrille(ligne,colonne);
+            grilleDeJeu.tasserLigne(ligne);
+            return true;
+        }else{
+            return false;
         }
     }
+        
+        public boolean desing_jeton(){
+            if (joueurCourant.nombreDesintegrateur==0){
+                return false;
+            }
+            int colonne;
+            int ligne;
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Veuillez saisir les coordonnées du jeton à désintegrer :");
+            System.out.println("Veuillez saisir la colonne :");
+            colonne = sc.nextInt() - 1;
+            while (colonne >6 || colonne <0){
+                System.out.println("Erreur : veuillez saisir une colonne valide :");
+                colonne = sc.nextInt() - 1;
+            }
+            System.out.println("Veuillez saisir la ligne :");
+            ligne = sc.nextInt() - 1;
+            while (ligne >5 || ligne <0){
+                System.out.println("Erreur : veuillez saisir une ligne valide :");
+                ligne = sc.nextInt() - 1;
+            }
+            if (null != grilleDeJeu.grille[ligne][colonne].jetonCourant && !"vide".equals(grilleDeJeu.grille[ligne][colonne].lireCouleurDuJeton())){
+                grilleDeJeu.supprimerJeton(ligne, colonne);
+                grilleDeJeu.tasserLigne(ligne);
+                joueurCourant.utiliserDesintegrateur();
+                return true;
+            }else{
+                return false;
+            }
+        }
     
     public boolean tour_de_jeu(){
         System.out.println("C'est à " + joueurCourant.nom + " de jouer (" + joueurCourant.couleur + ")");
@@ -158,9 +205,5 @@ public class Partie {
     
     public void lancerPartie(){
         initialiserPartie();
-        Random j = new Random();
-        int nouveauJoueur = j.nextInt(0,2);
-        joueurCourant = ListeJoueurs[nouveauJoueur];
-            
     }
 }

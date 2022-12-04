@@ -35,7 +35,7 @@ public class CelluleDeGrille {
         if (jetonCourant != null){
             return jetonCourant.toString();
         }else{
-            return "vide";
+            return "vide"; 
         }
     }
     
