@@ -44,12 +44,12 @@ public class PlateauDeJeu {
     }
     
     public void afficherGrilleSurConsole(){
-        for (int i=5; i>=0; i++){
+        for (int i=5; i>=0; i--){
             for (int j=0; j<7; j++){
                 if ( j==6 ){
-                    System.out.println(grille[i][j] + "\n");
+                    System.out.print(grille[i][j] + "\n");
                 }else{
-                    System.out.println(grille[i][j] + " ");
+                    System.out.print(grille[i][j] + " ");
                 }
             }    
         }
@@ -169,6 +169,13 @@ public class PlateauDeJeu {
             }
         }
     }
+    
+     public void tasserGrille(){
+        for (int i=0; i<7; i++){
+            tasserLigne(i);
+        }
+    }
+    
     
     public boolean colonneRemplie(int y){
         return grille[5][y] != null;

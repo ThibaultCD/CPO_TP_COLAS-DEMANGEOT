@@ -16,11 +16,9 @@ public class SuperPuissance4_COLASDEMANGEOTDESSORS {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Jeton premierJeton = new Jeton("Rouge");
-        System.out.println(premierJeton);
-        
-        Jeton deuxièmeJeton = new Jeton("Jaune");
-        System.out.println(deuxièmeJeton);
+        System.out.println("Vous entrez dans le jeu Puissance 4 !");
+        Partie une_partie = new Partie();
+        une_partie.lancerPartie();
     }
     
 }
