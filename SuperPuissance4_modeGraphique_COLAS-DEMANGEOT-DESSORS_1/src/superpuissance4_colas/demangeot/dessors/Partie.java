@@ -12,14 +12,9 @@ import java.util.Scanner;
  * @author 33781
  */
 public class Partie {
-    private Joueur[]ListeJoueurs = new Joueur[2];
+    Joueur[]ListeJoueurs = new Joueur[2];
     Joueur joueurCourant;
     PlateauDeJeu grilleDeJeu = new PlateauDeJeu();
-    
-    public Partie(Joueur premierJoueur, Joueur deuxiemeJoueur){
-        ListeJoueurs[0] = premierJoueur;
-        ListeJoueurs[0] = deuxiemeJoueur;
-    }
     
     public void attribuerCouleurAuxJoueurs(){
         Random r = new Random();
@@ -33,6 +28,14 @@ public class Partie {
             ListeJoueurs[1].affecterCouleur("Rouge");
         }
     }
+    
+    public Joueur ProchainJoueur(Joueur un_joueur){
+        if (ListeJoueurs[0] == joueurCourant){
+            return ListeJoueurs[1];
+        }
+        return ListeJoueurs[0];
+    }
+    
     public void creerEtAffecterJeton(Joueur joueur){
         Jeton [] jetons = new Jeton[30];
         for (int i=0; i<30; i++){
@@ -41,35 +44,36 @@ public class Partie {
         }   
     }
     
-    public void placerTrousNoirsEtDesintegrateurs(){
+     public void placerTrousNoirsEtDesintegrateurs() {
         //Génération des 5 trous noirs et de 3 désintégrateurs sur les trous noirs
         Random l = new Random();
         Random c = new Random();
         int compteur = 0;
-        for(int i=0; i<5; i++){
+        for (int i = 0; i < 5; i++) {
             int ligne_TN = l.nextInt(6);
             int colonne_TN = c.nextInt(7);
-            if(compteur <   2){
-                if (!grilleDeJeu.placerDesintegrateur(ligne_TN, colonne_TN)){
+            if (compteur < 2) {
+                if (!grilleDeJeu.placerDesintegrateur(ligne_TN, colonne_TN)) {
                     compteur--;
                 }
                 compteur = compteur + 1;
             }
-            if (!grilleDeJeu.placerTrouNoir(ligne_TN, colonne_TN)){
-                i--; 
-            }
-        }
-        //On place les trois derniers désintegrateurs
-        for(int i=0; i<3; i++){
-            int ligne_desint = l.nextInt(6);
-            int colonne_desint = l.nextInt(7);
-            if (!grilleDeJeu.placerDesintegrateur(ligne_desint, colonne_desint) || !grilleDeJeu.placerTrouNoir(ligne_desint, colonne_desint)){
+            if (!grilleDeJeu.placerTrouNoir(ligne_TN, colonne_TN)) {
                 i--;
             }
         }
-        grilleDeJeu.afficherGrilleSurConsole();
+        //On place les trois derniers désintegrateurs
+        for (int i = 0; i < 3; i++) {
+            int ligne_desint = l.nextInt(6);
+            int colonne_desint = l.nextInt(7);
+            if (grilleDeJeu.presenceDesintegrateur(ligne_desint, colonne_desint) == true){
+                i--;
+            }else{
+                grilleDeJeu.grille[ligne_desint][colonne_desint].placerDesintegrateur();
+                i++;
+            }
+        }
     }
-    
     int menu_joueur(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Que voulez-vous faire ?");
@@ -200,7 +204,18 @@ public class Partie {
         creerEtAffecterJeton(ListeJoueurs[0]);
         creerEtAffecterJeton(ListeJoueurs[1]);
         
+        Random r = new Random();
+        boolean le_premier = r.nextBoolean();
+        if (le_premier){
+            joueurCourant = ListeJoueurs[0];
+        }else{
+            joueurCourant = ListeJoueurs[1];
+        }
+        
         placerTrousNoirsEtDesintegrateurs();
+        
+        
+        grilleDeJeu.afficherGrilleSurConsole();
     }
     
     public void lancerPartie(){

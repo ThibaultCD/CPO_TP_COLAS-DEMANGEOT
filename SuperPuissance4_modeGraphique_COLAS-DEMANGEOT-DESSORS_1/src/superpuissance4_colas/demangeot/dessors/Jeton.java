@@ -9,7 +9,7 @@ package superpuissance4_colas.demangeot.dessors;
  * @author 33781
  */
 public class Jeton {
-    private String Couleur;
+    String Couleur;
 
     public Jeton(String couleur) {
         Couleur = couleur;
