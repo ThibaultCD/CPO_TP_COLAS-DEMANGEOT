@@ -3,67 +3,60 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package lightsoff;
-
 /**
  *
  * @author 33781
  */
 public class CelluleLumineuse {
-    boolean[][]grille;
+    boolean etreAllumee;
+    boolean celluleJouee;
     
-    public CelluleLumineuse(int taille){
-        grille = new boolean [taille][taille];
-        
-        for (int i = 0; i <taille ; i++){
-            for (int j = 0; j < taille; j++){
-                grille[i][j]=false;
-            }
+    public CelluleLumineuse(boolean etreallumee){
+        etreAllumee = etreallumee;
+    }
+    
+    public boolean celluleAllumee() {
+        if (etreAllumee == true){
+            return true;
+        }else{
+            return false;
         }
     }
     
-    public String toString(){
-        String s ="";
-        for(int i = 0; i < grille.length; i++){
-            for(int j = 0; j < grille[i].length; j++){
-                if(grille[i][j]){
-                    s +="0";
-                }else{
-                    s +="X";
-                }
-            }
-            s +="\n";
-        }
-        return s;
+    public void setAllumee(){
+        etreAllumee = true;
     }
     
-    public void LumièreDebutDePartie(){
-         for(int i = 0; i < grille.length; i++){
-            for(int j = 0; j < grille[i].length; j++){
-                if (Math.random() > 0.5){
-                 grille[i][j] = true;   
-                }
-            }
-        }    
-    } 
-    
-    public void choix (int x,int y){
-        grille[x][y]=!grille[x][y];
-        
-        if (x < grille.length - 1 ){
-        grille[x + 1][y]=!grille[x + 1][y];
-        }
-        
-        if (x > 0){
-        grille[x - 1][y]=!grille[x - 1][y];
-        }
-        
-        if (y < grille.length - 1){
-        grille[x][y + 1]=!grille[x][y + 1];
-        }
-        
-        if(y > 0){
-        grille[x][y - 1]=!grille[x][y - 1];
-        }
-        
+    public void setEteint(){
+        etreAllumee=false;
     }
-}
+    
+    public boolean changerEtat(){
+        if (etreAllumee == true){
+            etreAllumee = false;
+        }else{
+            etreAllumee = true;
+        }
+    return true;  
+    }
+    
+    public boolean etreCelluleJouee (){
+        if (celluleJouee == true){
+            return true;
+        }return false;
+    }
+
+    /**fait que la cellule vient d'etre joué
+     *
+     */
+    public void setCelluleJouee(){
+       celluleJouee = true;
+   }
+
+    /**
+     *fait que la cellule ne vient pas d'etre jouée
+     */
+    public void setCelluleNonJouee(){
+       celluleJouee = false;
+   }
+}       

@@ -10,8 +10,7 @@ package lightsoff;
  */
 public class fenetreDeJeu extends javax.swing.JFrame {
 
-    private boolean[][]grille;
-    
+    Grille GrilleJeu = new Grille();
     /**
      * Creates new form fenetreDeJeu
      */
@@ -20,20 +19,23 @@ public class fenetreDeJeu extends javax.swing.JFrame {
         
         for (int i = 4; i >= 0; i--){
             for ( int j = 0; j < 5; j++){
-                CelluleGraphique cellGraph = new CelluleGraphique();
+                CelluleGraphique cellGraph = new CelluleGraphique(GrilleJeu.cellules[i][j]);
+                cellGraph.addActionListener((java.awt.event.ActionEvent evt) -> {
+                   CelluleLumineuse c = cellGraph.celluleAssociee;
+                   cellGraph.celluleAssociee.setCelluleJouee();
+                   cellGraph.celluleAssociee.changerEtat();
+                   GrilleJeu.changerVoisin();
+                   panneau_grille.repaint();
+                });
+
                 panneau_grille.add(cellGraph);
             }
         }
     }
-    public void LumièreDebutDePartie(){
-         for(int i = 0; i < grille.length; i++){
-            for(int j = 0; j < grille[i].length; j++){
-                if (Math.random() > 0.5){
-                 grille[i][j] = true;   
-                }
-            }
-        }    
-    } 
+    
+    public void initialiserpartie() {
+        GrilleJeu.DebutPartie();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,8 +48,10 @@ public class fenetreDeJeu extends javax.swing.JFrame {
 
         panneau_grille = new javax.swing.JPanel();
         panneau_info = new javax.swing.JPanel();
-        nombre_coup = new javax.swing.JLabel();
+        nombre_essais = new javax.swing.JLabel();
         partie = new javax.swing.JButton();
+        essais = new javax.swing.JLabel();
+        lbl_essais = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,7 +60,7 @@ public class fenetreDeJeu extends javax.swing.JFrame {
 
         panneau_info.setBackground(new java.awt.Color(204, 255, 204));
 
-        nombre_coup.setText("Nombre de coup :");
+        nombre_essais.setText("Nombre d'essais :");
 
         partie.setText("Démarrer une partie");
         partie.addActionListener(new java.awt.event.ActionListener() {
@@ -64,6 +68,8 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                 partieActionPerformed(evt);
             }
         });
+
+        lbl_essais.setText("0");
 
         javax.swing.GroupLayout panneau_infoLayout = new javax.swing.GroupLayout(panneau_info);
         panneau_info.setLayout(panneau_infoLayout);
@@ -75,14 +81,21 @@ public class fenetreDeJeu extends javax.swing.JFrame {
                 .addContainerGap(80, Short.MAX_VALUE))
             .addGroup(panneau_infoLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(nombre_coup)
+                .addComponent(nombre_essais)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_essais)
+                .addGap(54, 54, 54)
+                .addComponent(essais, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panneau_infoLayout.setVerticalGroup(
             panneau_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panneau_infoLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(nombre_coup)
+                .addGroup(panneau_infoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nombre_essais)
+                    .addComponent(essais)
+                    .addComponent(lbl_essais))
                 .addGap(18, 18, 18)
                 .addComponent(partie)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -104,11 +117,11 @@ public class fenetreDeJeu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(panneau_info, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(panneau_grille, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panneau_grille, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(panneau_info, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -117,7 +130,6 @@ public class fenetreDeJeu extends javax.swing.JFrame {
 
     private void partieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partieActionPerformed
         // TODO add your handling code here:
-        LumièreDebutDePartie();
         panneau_grille.repaint();
         partie.setEnabled(false);
     }//GEN-LAST:event_partieActionPerformed
@@ -158,9 +170,12 @@ public class fenetreDeJeu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel nombre_coup;
+    private javax.swing.JLabel essais;
+    private javax.swing.JLabel lbl_essais;
+    private javax.swing.JLabel nombre_essais;
     private javax.swing.JPanel panneau_grille;
     private javax.swing.JPanel panneau_info;
     private javax.swing.JButton partie;
     // End of variables declaration//GEN-END:variables
+
 }
